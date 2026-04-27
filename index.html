@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Family Pantry</title>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="Pantry"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--br:#2d1f14;--br2:#4a3728;--cr:#faf6f0;--cr2:#f3ede3;--cr3:#e8dfd2;--br3:#6b5240;--wm:#c4834a;--wm2:#e8a870;--gn:#4a7c59;--gn2:#e8f3ec;--am:#b86a1e;--am2:#fdf0e0;--rd:#c0392b;--rd2:#fdecea;}
+body{font-family:"DM Sans",sans-serif;background:var(--cr);color:var(--br);min-height:100vh;padding-bottom:60px;}
+#pg0{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#2d1f14,#4a3728);padding:20px;}
+.box{background:var(--cr);border-radius:24px;padding:40px 28px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);}
+.box h1{font-family:"DM Serif Display",serif;font-size:30px;color:var(--br);font-style:italic;margin-bottom:8px;}
+.box p{font-size:13px;color:var(--br3);line-height:1.6;margin-bottom:22px;}
+#nm{width:100%;padding:14px;border-radius:12px;border:2px solid var(--cr3);font-size:16px;background:var(--cr2);color:var(--br);outline:none;font-family:"DM Sans",sans-serif;margin-bottom:12px;display:block;-webkit-appearance:none;}
+#gb{width:100%;padding:16px;border-radius:12px;border:none;background:var(--br);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:"DM Sans",sans-serif;display:block;-webkit-appearance:none;touch-action:manipulation;}
+#pg1{display:none;}
+header{background:linear-gradient(135deg,#2d1f14,#4a3728,#6b5240);padding:16px 18px 20px;position:sticky;top:0;z-index:99;}
+.hi{max-width:700px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+.ht{font-family:"DM Serif Display",serif;font-size:21px;color:#fff;}
+.ht b{color:#e8a870;font-style:italic;font-weight:400;}
+.hs{font-size:11px;color:rgba(255,255,255,.5);margin-top:1px;}
+.sb{font-size:11px;color:rgba(255,255,255,.8);background:rgba(255,255,255,.12);padding:5px 11px;border-radius:99px;display:flex;align-items:center;gap:5px;}
+.dot{width:7px;height:7px;border-radius:50%;background:#4ade80;}
+.dot.off{background:#f87171;}
+.mn{max-width:700px;margin:0 auto;padding:16px;}
+#nb{background:var(--am2);border:1.5px solid var(--wm2);border-radius:10px;padding:11px 14px;margin-bottom:14px;font-size:13px;color:var(--am);display:none;align-items:center;gap:10px;}
+#nb.on{display:flex;}
+#cb{background:var(--gn2);border:1px solid #b8d9c4;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--gn);display:flex;gap:8px;align-items:center;}
+#cb.w{background:var(--am2);border-color:var(--wm2);color:var(--am);}
+.st{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.sc{background:#fff;border-radius:14px;padding:13px;box-shadow:0 2px 10px rgba(45,31,20,.08);text-align:center;}
+.sn{font-size:24px;font-weight:700;}.sn.r{color:var(--rd);}
+.sl{font-size:10px;color:var(--br3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;}
+.af{background:#fff;border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 2px 10px rgba(45,31,20,.08);}
+.ft{font-family:"DM Serif Display",serif;font-size:16px;margin-bottom:12px;}
+.fr{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;}
+.fg{display:flex;flex-direction:column;flex:1;min-width:100px;}
+.fg label{font-size:10px;font-weight:700;color:var(--br3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+input[type=text],input[type=number],select{padding:9px 11px;border:1.5px solid var(--cr3);border-radius:9px;font-family:"DM Sans",sans-serif;font-size:14px;background:var(--cr);color:var(--br);width:100%;outline:none;-webkit-appearance:none;}
+.ab{padding:10px 18px;border-radius:9px;border:none;background:var(--br);color:#fff;font-family:"DM Sans",sans-serif;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;-webkit-appearance:none;touch-action:manipulation;}
+.ct{margin-bottom:14px;}
+.sw{position:relative;margin-bottom:9px;}
+.sw input{padding-left:34px;background:#fff;}
+.si{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.4;pointer-events:none;}
+.fb2{display:flex;gap:6px;flex-wrap:wrap;}
+.fb{padding:5px 13px;border-radius:99px;border:1.5px solid var(--cr3);background:#fff;color:var(--br3);font-family:"DM Sans",sans-serif;font-size:13px;cursor:pointer;-webkit-appearance:none;touch-action:manipulation;}
+.fb.on{background:var(--br);color:#fff;border-color:var(--br);}
+.lh{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--br3);margin-bottom:10px;}
+.il{display:flex;flex-direction:column;gap:9px;}
+.ic{background:#fff;border:1.5px solid var(--cr3);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:9px;box-shadow:0 1px 6px rgba(45,31,20,.07);}
+.ic.out{border-color:#f5c6c2;}.ic.low{border-color:#f5d9b0;}.ic.ed{border-color:var(--wm);}
+.tg{width:40px;height:23px;border-radius:99px;background:var(--cr3);border:2px solid #d4c8bb;cursor:pointer;position:relative;flex-shrink:0;transition:all .2s;-webkit-appearance:none;touch-action:manipulation;}
+.tg.on{background:var(--gn);border-color:var(--gn);}
+.tg::after{content:"";position:absolute;width:15px;height:15px;border-radius:50%;background:#fff;top:2px;left:2px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.tg.on::after{transform:translateX(17px);}
+.ii{flex:1;min-width:0;}
+.in{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.im{font-size:11px;color:var(--br3);margin-top:2px;display:flex;gap:6px;flex-wrap:wrap;}
+.cp{background:var(--cr2);padding:1px 7px;border-radius:99px;font-size:10px;font-weight:600;}
+.by{font-size:10px;color:var(--wm);font-weight:600;}
+.qc{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.qb{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--cr3);background:var(--cr2);color:var(--br);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation;}
+.qn{font-size:15px;font-weight:700;min-width:24px;text-align:center;}
+.qu{font-size:11px;color:var(--br3);}
+.vd{width:1px;height:22px;background:var(--cr3);flex-shrink:0;}
+.badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;flex-shrink:0;}
+.badge.ok{background:var(--gn2);color:var(--gn);}
+.badge.low{background:var(--am2);color:var(--am);}
+.badge.out{background:var(--rd2);color:var(--rd);}
+.ax{padding:4px 9px;border-radius:6px;border:1.5px solid var(--cr3);background:transparent;color:var(--br2);font-family:"DM Sans",sans-serif;font-size:12px;cursor:pointer;touch-action:manipulation;}
+.ax.dl{color:var(--rd);border-color:#f5c6c2;}
+.er{display:flex;gap:6px;flex:1;flex-wrap:wrap;align-items:center;}
+.empty{text-align:center;padding:3rem 1rem;color:var(--br3);font-size:14px;}
+@media(max-width:480px){.sn{font-size:20px;}.badge{display:none;}.qu{display:none;}}
+</style>
+</head>
+<body>
+
+<div id="pg0">
+  <div class="box">
+    <div style="font-size:52px;margin-bottom:14px">&#127968;</div>
+    <h1>Family Pantry</h1>
+    <p>Shared real-time inventory for your whole family. Enter your name so everyone knows who made changes.</p>
+    <input id="nm" type="text" placeholder="Your name e.g. Mum, Dad, Priya" maxlength="20"/>
+    <button id="gb">Enter Family Pantry</button>
+    <div style="font-size:11px;color:#999;margin-top:12px;">All family members share one live inventory</div>
+  </div>
+</div>
+
+<div id="pg1">
+  <header>
+    <div class="hi">
+      <div>
+        <div class="ht">&#127968; Family <b>Pantry</b></div>
+        <div class="hs">Logged in as <b id="UL" style="color:#e8a870"></b></div>
+      </div>
+      <div class="sb"><div class="dot" id="DOT"></div><span id="SL">Connecting...</span></div>
+    </div>
+  </header>
+  <div class="mn">
+    <div id="nb"><span>&#128276;</span><span id="NM"></span><button onclick="document.getElementById('nb').classList.remove('on')" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:20px;color:inherit">x</button></div>
+    <div id="cb"><span>&#128246;</span><span id="CM">Connecting...</span></div>
+    <div class="st">
+      <div class="sc"><div style="font-size:19px;margin-bottom:3px">&#128230;</div><div class="sn" id="ST">0</div><div class="sl">Total</div></div>
+      <div class="sc"><div style="font-size:19px;margin-bottom:3px">&#9989;</div><div class="sn" id="SI">0</div><div class="sl">In Stock</div></div>
+      <div class="sc"><div style="font-size:19px;margin-bottom:3px">&#9888;</div><div class="sn r" id="SO">0</div><div class="sl">Attention</div></div>
+    </div>
+    <div class="af">
+      <div class="ft">Add New Item</div>
+      <div class="fr">
+        <div class="fg" style="flex:2;min-width:120px;position:relative;">
+          <label>Item Name</label>
+          <input type="text" id="NN" placeholder="e.g. Rice" autocomplete="off"/>
+          <div id="DD" style="position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid var(--cr3);border-radius:9px;z-index:200;max-height:180px;overflow-y:auto;box-shadow:0 8px 24px rgba(45,31,20,.15);display:none;margin-top:4px;"></div>
+        </div>
+        <div class="fg" style="max-width:72px"><label>Qty</label><input type="number" id="NQ" value="1" min="0"/></div>
+        <div class="fg" style="max-width:80px"><label>Unit</label><input type="text" id="NU" placeholder="pcs/kg"/></div>
+        <div class="fg" style="max-width:114px"><label>Category</label>
+          <select id="NC"><option>Kitchen</option><option>Bathroom</option><option>Cleaning</option><option>Pantry</option><option>Other</option></select>
+        </div>
+        <div class="fg" style="flex:0"><label>&nbsp;</label><button class="ab" id="ADDBTN">Add</button></div>
+      </div>
+    </div>
+    <div class="ct">
+      <div class="sw"><span class="si">&#128269;</span><input type="text" id="SR" placeholder="Search pantry..."/></div>
+      <div class="fb2" id="FB"></div>
+    </div>
+    <div class="lh" id="LH">All Items</div>
+    <div class="il" id="IL"></div>
+  </div>
+</div>
+
+<script>
+var DB='https://family-pantry-889d9-default-rtdb.firebaseio.com';
+var items={},user='',filt='All',srch='',editId=null,ntTimer=null;
+var SUGG={Kitchen:['Dish soap','Paper towels','Cooking oil','Salt','Sugar','Coffee','Milk','Eggs','Butter'],Bathroom:['Shampoo','Conditioner','Toothpaste','Toothbrush','Toilet paper','Hand wash','Body wash'],Cleaning:['Laundry detergent','Floor cleaner','Bathroom cleaner','Disinfectant','Bleach'],Pantry:['Rice','Wheat flour','Lentils','Chickpeas','Turmeric','Cumin','Pasta','Bread'],Other:['Batteries','Light bulbs','Candles','Tape']};
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
+function ds(){return new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function lv(it){if(!it.inStock||it.qty===0)return 'out';if(it.qty<=2)return 'low';return 'ok';}
+
+// ── ENTER APP ─────────────────────────────────────────────────────
+function enter(){
+  var n=document.getElementById('nm').value.trim()||'Family';
+  user=n;
+  try{localStorage.setItem('fp_u',n);}catch(e){}
+  document.getElementById('pg0').style.display='none';
+  document.getElementById('pg1').style.display='block';
+  document.getElementById('UL').textContent=n;
+  fetchItems();
+  setInterval(fetchItems,5000);
+}
+
+// Button click
+document.getElementById('gb').addEventListener('click',enter);
+document.getElementById('nm').addEventListener('keydown',function(e){if(e.key==='Enter')enter();});
+
+// Auto login
+try{var sv=localStorage.getItem('fp_u');if(sv){document.getElementById('nm').value=sv;}}catch(e){}
+
+// ── FIREBASE REST ─────────────────────────────────────────────────
+function fetchItems(){
+  fetch(DB+'/pantry/items.json')
+  .then(function(r){return r.json();})
+  .then(function(d){
+    items=d||{};
+    render();
+    document.getElementById('DOT').className='dot';
+    document.getElementById('SL').textContent='Live';
+    document.getElementById('CM').textContent='Connected - syncs every 5 seconds';
+    document.getElementById('cb').className='';
+    document.getElementById('cb').style.cssText='background:#e8f3ec;border:1px solid #b8d9c4;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#4a7c59;display:flex;gap:8px;align-items:center;';
+  })
+  .catch(function(){
+    document.getElementById('DOT').className='dot off';
+    document.getElementById('SL').textContent='Offline';
+    document.getElementById('CM').textContent='Could not connect - check internet';
+    document.getElementById('cb').style.cssText='background:#fdf0e0;border:1px solid #e8a870;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#b86a1e;display:flex;gap:8px;align-items:center;';
+  });
+}
+
+function fbPost(path,data){return fetch(DB+path+'.json',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});}
+function fbPatch(path,data){return fetch(DB+path+'.json',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});}
+function fbDel(path){return fetch(DB+path+'.json',{method:'DELETE'});}
+
+// ── ACTIONS ───────────────────────────────────────────────────────
+document.getElementById('ADDBTN').addEventListener('click',addItem);
+document.getElementById('NN').addEventListener('keydown',function(e){if(e.key==='Enter')addItem();});
+document.getElementById('SR').addEventListener('input',function(){srch=this.value;render();});
+
+function addItem(){
+  var name=document.getElementById('NN').value.trim();
+  if(!name)return;
+  var qty=Math.max(0,parseInt(document.getElementById('NQ').value)||0);
+  var unit=document.getElementById('NU').value.trim()||'pcs';
+  var cat=document.getElementById('NC').value;
+  var it={name:name,cat:cat,qty:qty,unit:unit,inStock:qty>0,added:ds(),addedBy:user};
+  fbPost('/pantry/items',it).then(fetchItems);
+  document.getElementById('NN').value='';
+  document.getElementById('NQ').value='1';
+  document.getElementById('NU').value='';
+  document.getElementById('DD').style.display='none';
+  notify('"'+name+'" added');
+}
+
+function delItem(id){
+  if(!confirm('Delete?'))return;
+  fbDel('/pantry/items/'+id).then(fetchItems);
+}
+
+function togStock(id){
+  var it=items[id];if(!it)return;
+  var inStock=!it.inStock;
+  if(!inStock)notify('"'+it.name+'" is out of stock!');
+  fbPatch('/pantry/items/'+id,{inStock:inStock,qty:inStock?it.qty:0,lastBy:user}).then(fetchItems);
+}
+
+function chgQty(id,d){
+  var it=items[id];if(!it)return;
+  var qty=Math.max(0,(it.qty||0)+d);
+  if(qty===0&&it.qty>0)notify('"'+it.name+'" is out of stock!');
+  else if(qty<=2&&it.qty>2&&qty>0)notify('"'+it.name+'" is running low!');
+  fbPatch('/pantry/items/'+id,{qty:qty,inStock:qty>0,lastBy:user}).then(fetchItems);
+}
+
+function startEdit(id){editId=id;render();setTimeout(function(){var e=document.getElementById('e_n_'+id);if(e){e.focus();e.select();}},50);}
+function saveEdit(id){
+  var it=items[id];if(!it)return;
+  var upd={lastBy:user};
+  var n=document.getElementById('e_n_'+id);if(n&&n.value.trim())upd.name=n.value.trim();
+  var q=document.getElementById('e_q_'+id);if(q){upd.qty=Math.max(0,parseInt(q.value)||0);upd.inStock=upd.qty>0;}
+  var u=document.getElementById('e_u_'+id);if(u&&u.value.trim())upd.unit=u.value.trim();
+  fbPatch('/pantry/items/'+id,upd).then(fetchItems);
+  editId=null;
+}
+
+// ── AUTOCOMPLETE ──────────────────────────────────────────────────
+document.getElementById('NN').addEventListener('input',function(){
+  var q=this.value,dd=document.getElementById('DD');
+  if(!q){dd.style.display='none';return;}
+  var ex=new Set(Object.values(items).map(function(i){return i.name.toLowerCase();}));
+  var cat=document.getElementById('NC').value,all=[];
+  Object.keys(SUGG).forEach(function(c){SUGG[c].forEach(function(n){if(!ex.has(n.toLowerCase()))all.push({name:n,cat:c});});});
+  var m=all.filter(function(s){return s.name.toLowerCase().indexOf(q.toLowerCase())>=0;}).slice(0,7);
+  if(!m.length){dd.style.display='none';return;}
+  dd.innerHTML=m.map(function(s){return '<div style="padding:9px 12px;font-size:14px;cursor:pointer;display:flex;justify-content:space-between;border-bottom:1px solid #f3ede3;" ontouchstart="pickS(this)" onmousedown="pickS(this)" data-name="'+esc(s.name)+'" data-cat="'+esc(s.cat)+'">'+esc(s.name)+'<span style="font-size:10px;color:#6b5240;background:#f3ede3;padding:2px 8px;border-radius:99px;">'+esc(s.cat)+'</span></div>';}).join('');
+  dd.style.display='block';
+});
+function pickS(el){
+  document.getElementById('NN').value=el.getAttribute('data-name');
+  document.getElementById('NC').value=el.getAttribute('data-cat');
+  document.getElementById('DD').style.display='none';
+  document.getElementById('NQ').focus();
+}
+document.addEventListener('click',function(e){if(e.target.id!=='NN')document.getElementById('DD').style.display='none';});
+
+// ── FILTER ────────────────────────────────────────────────────────
+function setFilt(f){filt=f;render();}
+
+// ── NOTIFY ────────────────────────────────────────────────────────
+function notify(msg){
+  document.getElementById('NM').textContent=msg;
+  document.getElementById('nb').classList.add('on');
+  clearTimeout(ntTimer);ntTimer=setTimeout(function(){document.getElementById('nb').classList.remove('on');},5000);
+}
+
+// ── RENDER ────────────────────────────────────────────────────────
+function render(){
+  var arr=Object.keys(items).map(function(k){return Object.assign({_id:k},items[k]);});
+  document.getElementById('ST').textContent=arr.length;
+  document.getElementById('SI').textContent=arr.filter(function(i){return i.inStock&&i.qty>0;}).length;
+  document.getElementById('SO').textContent=arr.filter(function(i){return lv(i)!=='ok';}).length;
+  var cats=['All'].concat(Array.from(new Set(arr.map(function(i){return i.cat;}))).sort());
+  document.getElementById('FB').innerHTML=cats.map(function(c){return '<button class="fb'+(filt===c?' on':'')+'" onclick="setFilt(''+c+'')">'+c+'</button>';}).join('');
+  var list=filt==='All'?arr:arr.filter(function(i){return i.cat===filt;});
+  if(srch)list=list.filter(function(i){return i.name.toLowerCase().indexOf(srch.toLowerCase())>=0;});
+  document.getElementById('LH').textContent=(filt!=='All'?filt+' - ':'All Items - ')+list.length+' item'+(list.length!==1?'s':'');
+  var el=document.getElementById('IL');
+  if(!list.length){el.innerHTML='<div class="empty">'+(srch?'No items match "'+srch+'"':'Pantry is empty - add your first item!')+'</div>';return;}
+  el.innerHTML=list.map(function(it){
+    var id=it._id,l=lv(it),cc=l==='out'?' out':l==='low'?' low':'',bt=l==='out'?'Out of stock':l==='low'?'Low stock':'In stock',unit=it.unit||'pcs';
+    if(editId===id)return '<div class="ic ed"><div class="tg '+(it.inStock?'on':'')+'" onclick="togStock(''+id+'')"></div><div class="er"><input style="flex:1;min-width:80px;padding:8px;border:1.5px solid #e8dfd2;border-radius:8px;font-size:14px;" id="e_n_'+id+'" value="'+esc(it.name)+'"/><input style="width:66px;padding:8px;border:1.5px solid #e8dfd2;border-radius:8px;font-size:14px;" id="e_q_'+id+'" type="number" value="'+it.qty+'" min="0"/><input style="width:74px;padding:8px;border:1.5px solid #e8dfd2;border-radius:8px;font-size:14px;" id="e_u_'+id+'" value="'+esc(unit)+'"/></div><div style="display:flex;gap:4px;flex-shrink:0;"><button class="ax" onclick="saveEdit(''+id+'')">Save</button><button class="ax" onclick="editId=null;render()">Cancel</button></div></div>';
+    return '<div class="ic'+cc+'"><div class="tg '+(it.inStock?'on':'')+'" onclick="togStock(''+id+'')"></div><div class="ii"><div class="in">'+esc(it.name)+'</div><div class="im"><span class="cp">'+esc(it.cat)+'</span><span class="by">'+esc(it.addedBy||'Family')+'</span></div></div><div class="qc"><button class="qb" onclick="chgQty(''+id+'',-1)">-</button><span class="qn">'+it.qty+'</span><span class="qu">'+esc(unit)+'</span><button class="qb" onclick="chgQty(''+id+'',1)">+</button></div><div class="vd"></div><span class="badge '+l+'">'+bt+'</span><div style="display:flex;gap:4px;flex-shrink:0;"><button class="ax" onclick="startEdit(''+id+'')">Edit</button><button class="ax dl" onclick="delItem(''+id+'')">Del</button></div></div>';
+  }).join('');
+}
+</script>
+</body>
+</html>
