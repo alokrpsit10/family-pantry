@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Family Pantry</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:sans-serif;background:#2d1f14;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+.box{background:#faf6f0;border-radius:20px;padding:40px 28px;max-width:360px;width:100%;text-align:center;}
+h1{font-size:28px;margin-bottom:10px;color:#2d1f14;}
+p{font-size:14px;color:#6b5240;margin-bottom:20px;}
+#nm{width:100%;padding:14px;border-radius:10px;border:2px solid #e8dfd2;font-size:16px;margin-bottom:12px;display:block;background:#f3ede3;color:#2d1f14;}
+#gb{width:100%;padding:16px;border-radius:10px;border:none;background:#2d1f14;color:#fff;font-size:16px;font-weight:700;cursor:pointer;display:block;}
+#app{display:none;background:#faf6f0;min-height:100vh;padding:20px;}
+#app h2{font-size:22px;color:#2d1f14;margin-bottom:10px;}
+#status{font-size:14px;color:#4a7c59;background:#e8f3ec;padding:10px;border-radius:8px;margin-bottom:16px;}
+#add-row{display:flex;gap:8px;margin-bottom:16px;}
+#add-row input{flex:1;padding:10px;border:2px solid #e8dfd2;border-radius:8px;font-size:14px;background:#f3ede3;color:#2d1f14;}
+#add-row button{padding:10px 16px;border:none;background:#2d1f14;color:#fff;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;}
+#items{display:flex;flex-direction:column;gap:8px;}
+.item{background:#fff;border:1.5px solid #e8dfd2;border-radius:10px;padding:12px 14px;font-size:15px;color:#2d1f14;display:flex;justify-content:space-between;align-items:center;}
+.del{background:none;border:none;color:#c0392b;font-size:18px;cursor:pointer;}
+</style>
+</head>
+<body>
+<div id="pg0" class="box">
+  <div style="font-size:48px;margin-bottom:12px">&#127968;</div>
+  <h1>Family Pantry</h1>
+  <p>Enter your name to get started</p>
+  <input id="nm" type="text" placeholder="Your name"/>
+  <button id="gb">Enter Family Pantry</button>
+</div>
+<div id="app">
+  <h2>&#127968; Family Pantry</h2>
+  <div id="status">Connecting...</div>
+  <div id="add-row">
+    <input id="ni" type="text" placeholder="Add item e.g. Rice"/>
+    <button id="ab">Add</button>
+  </div>
+  <div id="items"></div>
+</div>
+<script>
+var DB='https://family-pantry-889d9-default-rtdb.firebaseio.com';
+var user='';
+document.getElementById('gb').onclick=function(){
+  var n=document.getElementById('nm').value.trim();
+  if(!n)n='Family';
+  user=n;
+  document.getElementById('pg0').style.display='none';
+  document.getElementById('app').style.display='block';
+  load();setInterval(load,5000);
+};
+document.getElementById('ab').onclick=function(){
+  var name=document.getElementById('ni').value.trim();
+  if(!name)return;
+  var x=new XMLHttpRequest();
+  x.open('POST',DB+'/pantry/items.json',true);
+  x.setRequestHeader('Content-Type','application/json');
+  x.onload=function(){load();};
+  x.send(JSON.stringify({name:name,qty:1,unit:'pcs',cat:'General',inStock:true,addedBy:user,added:new Date().toLocaleDateString()}));
+  document.getElementById('ni').value='';
+};
+function load(){
+  var x=new XMLHttpRequest();
+  x.open('GET',DB+'/pantry/items.json',true);
+  x.onload=function(){
+    try{var d=JSON.parse(x.responseText)||{};}catch(e){var d={};}
+    document.getElementById('status').textContent='Connected - '+Object.keys(d).length+' items';
+    var el=document.getElementById('items');
+    el.innerHTML=Object.keys(d).length===0?'<div style="color:#6b5240;text-align:center;padding:20px">No items yet!</div>':
+    Object.entries(d).map(function(e){return '<div class="item"><span>'+e[1].name+'</span><button class="del" onclick="del(\''+e[0]+'\')">x</button></div>';}).join('');
+  };
+  x.onerror=function(){document.getElementById('status').textContent='Offline';};
+  x.send();
+}
+function del(id){
+  if(!confirm('Delete?'))return;
+  var x=new XMLHttpRequest();
+  x.open('DELETE',DB+'/pantry/items/'+id+'.json',true);
+  x.onload=load;x.send();
+}
+</script>
+</body>
+</html>
