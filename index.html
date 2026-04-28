@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Family Pantry</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pantry">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#faf6f0;min-height:100vh;padding-bottom:40px}
+header{background:linear-gradient(135deg,#2d1f14,#4a3728);padding:16px 18px 20px;position:sticky;top:0;z-index:99;display:flex;align-items:center;justify-content:space-between}
+.ht{color:#fff;font-size:20px;font-weight:700}.ht span{color:#e8a870;font-style:italic;font-weight:400}
+.hs{color:rgba(255,255,255,.5);font-size:11px;margin-top:2px}
+.sb{font-size:11px;color:rgba(255,255,255,.85);background:rgba(255,255,255,.12);padding:5px 12px;border-radius:99px;display:flex;align-items:center;gap:5px}
+.dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0}.dot.off{background:#f87171}
+.mn{max-width:700px;margin:0 auto;padding:16px}
+#cb{background:#e8f3ec;border:1px solid #b8d9c4;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#4a7c59}
+#cb.w{background:#fdf0e0;border-color:#e8a870;color:#b86a1e}
+#nb{background:#fdf0e0;border:1.5px solid #e8a870;border-radius:10px;padding:11px 14px;margin-bottom:14px;font-size:13px;color:#b86a1e;display:none;align-items:center;gap:10px}
+#nb.on{display:flex}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.sc{background:#fff;border-radius:14px;padding:13px;box-shadow:0 2px 10px rgba(45,31,20,.08);text-align:center}
+.si{font-size:19px;margin-bottom:3px}.sn{font-size:24px;font-weight:700;color:#2d1f14}.sn.r{color:#c0392b}
+.sl{font-size:10px;color:#6b5240;text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.af{background:#fff;border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 2px 10px rgba(45,31,20,.08)}
+.ft{font-size:16px;font-weight:700;color:#2d1f14;margin-bottom:12px}
+.fr{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+.fg{display:flex;flex-direction:column;flex:1;min-width:100px}
+.fg label{font-size:10px;font-weight:700;color:#6b5240;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+input[type=text],input[type=number],select{padding:10px 12px;border:1.5px solid #e8dfd2;border-radius:9px;font-size:14px;background:#faf6f0;color:#2d1f14;width:100%;outline:none;-webkit-appearance:none}
+.ab{padding:10px 20px;border-radius:9px;border:none;background:#2d1f14;color:#fff;font-size:14px;font-weight:700;cursor:pointer;touch-action:manipulation}
+.ct{margin-bottom:14px}
+.sw{position:relative;margin-bottom:9px}.sw input{padding-left:34px;background:#fff}
+.sri{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.4;pointer-events:none}
+.fbs{display:flex;gap:6px;flex-wrap:wrap}
+.fb{padding:5px 14px;border-radius:99px;border:1.5px solid #e8dfd2;background:#fff;color:#6b5240;font-size:13px;cursor:pointer;touch-action:manipulation}
+.fb.on{background:#2d1f14;color:#fff;border-color:#2d1f14}
+.lh{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6b5240;margin-bottom:10px}
+.il{display:flex;flex-direction:column;gap:9px}
+.ic{background:#fff;border:1.5px solid #e8dfd2;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 6px rgba(45,31,20,.07)}
+.ic.out{border-color:#f5c6c2}.ic.low{border-color:#f5d9b0}
+.tg{width:40px;height:23px;border-radius:99px;background:#e8dfd2;border:2px solid #d4c8bb;cursor:pointer;position:relative;flex-shrink:0;touch-action:manipulation}
+.tg.on{background:#4a7c59;border-color:#4a7c59}
+.tg::after{content:"";position:absolute;width:15px;height:15px;border-radius:50%;background:#fff;top:2px;left:2px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.tg.on::after{transform:translateX(17px)}
+.ii{flex:1;min-width:0}.in{font-size:15px;font-weight:600;color:#2d1f14;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.im{font-size:11px;color:#6b5240;margin-top:2px;display:flex;gap:6px}
+.cp{background:#f3ede3;padding:1px 7px;border-radius:99px;font-size:10px;font-weight:600}
+.qc{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.qb{width:28px;height:28px;border-radius:50%;border:1.5px solid #e8dfd2;background:#f3ede3;color:#2d1f14;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation}
+.qn{font-size:15px;font-weight:700;min-width:24px;text-align:center;color:#2d1f14}
+.qu{font-size:11px;color:#6b5240}
+.vd{width:1px;height:22px;background:#e8dfd2;flex-shrink:0}
+.badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;flex-shrink:0}
+.badge.ok{background:#e8f3ec;color:#4a7c59}.badge.low{background:#fdf0e0;color:#b86a1e}.badge.out{background:#fdecea;color:#c0392b}
+.acts{display:flex;gap:4px;flex-shrink:0}
+.ax{padding:5px 10px;border-radius:6px;border:1.5px solid #e8dfd2;background:transparent;color:#4a3728;font-size:12px;cursor:pointer;touch-action:manipulation}
+.ax.dl{color:#c0392b;border-color:#f5c6c2}
+.er{display:flex;gap:6px;flex:1;flex-wrap:wrap;align-items:center}
+.empty{text-align:center;padding:3rem 1rem;color:#6b5240;font-size:14px}
+@media(max-width:480px){.sn{font-size:20px}.badge{display:none}.qu{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="ht">&#127968; Family <span>Pantry</span></div>
+    <div class="hs">Shared family inventory</div>
+  </div>
+  <div class="sb"><div class="dot" id="DOT"></div><span id="SL">Connecting...</span></div>
+</header>
+<div class="mn">
+  <div id="nb"><span>&#128276;</span><span id="NM"></span><button onclick="document.getElementById('nb').classList.remove('on')" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:20px;color:inherit">x</button></div>
+  <div id="cb">&#128246; Connecting to Firebase...</div>
+  <div class="stats">
+    <div class="sc"><div class="si">&#128230;</div><div class="sn" id="ST">0</div><div class="sl">Total</div></div>
+    <div class="sc"><div class="si">&#9989;</div><div class="sn" id="SI">0</div><div class="sl">In Stock</div></div>
+    <div class="sc"><div class="si">&#9888;</div><div class="sn r" id="SO">0</div><div class="sl">Attention</div></div>
+  </div>
+  <div class="af​​​​​​​​​​​​​​​​
